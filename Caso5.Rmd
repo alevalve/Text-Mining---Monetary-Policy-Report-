@@ -1,0 +1,278 @@
+---
+title: "Caso 5"
+author: "Ana, Alexander, Karina, Juliana"
+date: "12/8/2021"
+output: html_document 
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+#install.packages("tidytext",dependencies=TRUE)  
+library(gutenbergr)
+library(tidyverse)
+  library(tidytext)
+  library(tidytext)
+  library(tm)
+  library(lubridate)
+  library(zoo)
+  library(scales)
+  library(tm)
+  library(SnowballC)
+  library(wordcloud)
+  library(ggplot2)
+  library(dplyr)
+  library(readr)
+  library(cluster)
+  library(quanteda)
+  library(tm)
+  library(RColorBrewer)
+  library(ggplot2)
+  library(wordcloud)
+  library(biclust)
+  library(igraph)
+  library(fpc)
+  library(formattable)
+  install.packages("Rcampdf", repos = "http://datacube.wu.ac.at/", type = "source")
+  
+  library(rvest)
+  library(httr)
+  library(xml2)
+  library(jsonlite)
+  library(tidyverse)
+  library(tidytext)
+  library(lubridate)
+  library(scales)
+  library(janeaustenr)
+  library(dplyr)
+  library(stringr)
+  library(syuzhet)
+library(RColorBrewer)
+library(wordcloud)
+library(tm)
+  library(gutenbergr)
+library(tidyverse)
+  library(tidytext)
+  library(tidytext)
+  library(xts)
+  library(tm)
+  library(lubridate)
+  library(zoo)
+  library(scales)
+  library(tm)
+  library(SnowballC)
+  library(wordcloud)
+  library(ggplot2)
+  library(dplyr)
+  library(readr)
+  library(cluster)
+  library(quanteda)
+  library(tm)
+  library(RColorBrewer)
+  library(ggplot2)
+  library(wordcloud)
+  library(biclust)
+  library(igraph)
+  library(fpc)
+library(formattable)
+library(ggfortify)
+  install.packages("Rcampdf", repos = "http://datacube.wu.ac.at/", type = "source")
+  
+  library(rvest)
+  library(httr)
+  library(xml2)
+  library(jsonlite)
+  library(tidyverse)
+  library(tidytext)
+  library(lubridate)
+  library(scales)
+  library(janeaustenr)
+  library(dplyr)
+  library(stringr)
+  library(readxl)
+  library(readr)
+  library(writexl)
+  library(lubridate)
+  library(ggfortify)
+  library(lubridate)
+  suppressMessages(library(readxl))
+suppressMessages(library(stringi))
+suppressMessages(library(data.table))
+suppressMessages(library(tidyr))
+suppressMessages(library(dplyr))
+suppressMessages(library(writexl))
+suppressWarnings(library(magrittr))
+suppressWarnings(library(dplyr))
+suppressWarnings(library(readxl))
+suppressWarnings(library(tidyr))
+suppressWarnings(library(DT))
+suppressWarnings(library(kableExtra))
+suppressWarnings(library(formattable))
+suppressWarnings(library(knitr))
+suppressWarnings(library(kableExtra))
+suppressWarnings(library(rpivotTable))
+suppressWarnings(library(gt))
+suppressWarnings(library(reactable))
+suppressWarnings(library(flextable))
+suppressWarnings(library(rhandsontable))
+
+```
+
+## Objetivos 
+
+Analizar el reporte de política monetaria del Banco Central del mes de Septiembre 2021 
+
+Determinar la frecuencia de las palabras del texto creado por el Banco Central.
+
+## Introducción
+
+Como se sabe la técnica de minería de texto es de gran ayuda para encontrar ciertos patrones. Esto con el fin de capturar conceptos claves en documentos elegidos para analizarlos más de cerca. El grupo eligió el comunicado de política monetaria de Septiembre del presente año puesto que es de gran importancia para el país. Al encontrar la frecuencias de palabras podemos estudiar que es de importancia o que mensaje quieren recalcar en el documento.
+
+## Justificacion 
+
+Hemos decido hacer un análisis la tasa de política monetaria basándonos en proyecciones de inflación y la coyuntura macroeconomía. Además estaremos profundizando en las decisiones políticas que tomó el BCCR. Así mismo, este análisis es realizado con la idea de entender que los cambios de inflación y la actividad económica pueden ayudar a determinar las probabilidades del valor presente. De tal manera que seguir analizando esta medida nos ayudará como ciudadanos a entender que las actividades en el país son cruciales en la determinación de la tasa política monetaria anual. Todo este análisis no se pudiera llevar a cabo sin las herramientas y metodología brindadas en clases.
+
+
+```{r cars}
+textoPM <- c("La Junta Directiva del Banco Central de Costa Rica (BCCR), en sesión del 14 de", "setiembre del 2021, acordó mantener la Tasa de Política Monetaria (TPM) en 0,75% anual. De esa", "manera, el Banco Central continúa con una postura de política monetaria expansiva y contracíclica,", "que implica bajas tasas de interés, apoyadas en una liquidez agregada holgada. La Junta Directiva", "indicó que esa postura se mantendrá hacia adelante en el tanto los modelos de pronóstico muestren", "que la inflación se ubicará por debajo de su valor meta en los siguientes 24 meses.",
+"El Banco Central conduce su política monetaria sobre la base de un esquema de metas de inflación.", "Bajo este régimen, las decisiones de política monetaria, y en particular los ajustes en la Tasa de", "Política Monetaria, se fundamentan en un análisis del entorno macroeconómico actual y, sobre todo,", "de la evolución prevista para la inflación y sus determinantes.La actividad económica global", "continúa en un proceso de recuperación, apoyado por la permanencia de estímulos monetarios y", "fiscales. Sin embargo, las nuevas variantes del coronavirus continúan suponiendo un riesgo", "significativo para la continuidad y vigor de la recuperación.",
+"El dinamismo de la demanda mundial se ha reflejado en un incremento en el precio de las materias", "primas que, aunado a efectos base, ha propiciado una aceleración de la inflación en algunos de los", "principales socios comerciales del país. No obstante, este incremento ha sido interpretado como", "transitorio por algunos bancos centrales y por los mercados financieros, razón por la cual los", "bancos centrales de naciones avanzadas continúan con una política monetaria laxa.",
+"En línea con la evolución de la economía internacional, la actividad económica local continúa en", "proceso de recuperación. El Índice Mensual de Actividad Económica (IMAE), en su serie tendencia", "ciclo, creció 10,0% en términos interanuales en julio, y la variación trimestral anualizada de la", "serie desestacionalizada muestra que esa recuperación lleva buen impulso. Además, medida por el", "IMAE, la producción se ubica ya en niveles superiores a los observados antes de la pandemia. Sin-", "embargo, prevalecen una capacidad ociosa (brecha del producto negativa) y una tasa desempleo que,", "aunque ha disminuido, se encuentra aún en niveles históricamente altos (17,4% en el trimestre móvil",
+"a julio).",
+"La inflación, por su parte, continúa baja, con una tasa interanual de 1,7% en agosto pasado.", "También se mantiene en niveles bajos el promedio de indicadores de inflación subyacente (1,1%).", "Este comportamiento es consecuente con la existencia de presiones desinflacionarias presentes en", "la economía costarricense desde el 2019, y que se intensificaron a partir de la pandemia: una",
+"brecha del producto negativa, una alta tasa de desempleo y bajas expectativas de inflación (0,6%", "a-12 meses en agosto último, según información de mercado).",
+"De manera prospectiva, los modelos de pronóstico del Banco Central señalan que la inflación", "seguirá en los próximos 24 meses, por debajo de la meta de 3%.",
+"El Banco Central ha mantenido una postura expansiva de política monetaria, en apoyo de la", "recuperación económica y de la creación de empleos, y que se ha manifestado en reducciones", "sucesivaas en la Tasa de Política Monetaria, hasta ubicarla, a partir de junio del 2020, en 0,75%", "su mínimo histórico. Esa política ha sido complementada y apoyada por una posición de", 
+"holgada liquidez sistémica, influida en particular por la disminución en la tasa de encaje mínimo", "legal para las operaciones en moneda nacional en junio del 2019 y por la facilidad especial y", "temporal de crédito concedida a los intermediarios financieros, a partir de setiembre del año", "anterior, con el fin de que los recursos se canalizaran a agentes económicos afectados por el", "COVID-19. La postura expansiva de política monetaria ha permitido una reducción continua de las", "tasas de interés de mercado, lo que a su vez ha provisto un alivio inmediato en el flujo de caja", "de los hogares y empresas e incidido en una aceleración del crédito en colones al sector privado.",
+"Dado el contexto descrito de baja inflación actual y proyectada, una brecha del producto negativa", "y una tasa aún alta de desempleo, la Junta Directiva del BCCR estimó necesario mantener la", "postura expansiva y contracíclica de su política monetaria, en apoyo al proceso de recuperación", "económica y de generación de empleo, y continuar con esa postura en tanto los pronósticos indiquen", "que la inflación se mantendría por debajo de la meta en el horizonte de proyección de 24 meses.")
+
+textoPM
+```
+
+<style>
+table {
+background-color:#FFFFFF;
+}
+</style>
+
+<style>
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    background-color: green;
+}
+</style>
+
+<button onclick="document.body.scrollTop = document.documentElement.scrollTop = 0;" style="
+    position: fixed;
+    bottom: 5px;
+    right: 40px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: blue;
+    background-color: #0A71A0;
+    border: none;
+    border-radius: 15px;
+    
+
+## Metodologia 
+
+Se utilizará la técnica del text mining por medio del programa R.
+
+
+## Limpieza y Tokenizacion 
+
+```{r}
+limpiar_tokenizar <- function(texto){
+  # El orden de la limpieza no es arbitrario
+    # Se convierte todo el texto a minúsculas
+    nuevo_textoPM <- tolower(textoPM)
+    # Eliminación de páginas web (palabras que empiezan por "http." seguidas 
+    # de cualquier cosa que no sea un espacio)
+    nuevo_textoPM <- str_replace_all(nuevo_textoPM,"http\\S*", "")
+    # Eliminación de signos de puntuación
+    nuevo_textoPM <- str_replace_all(nuevo_textoPM,"[[:punct:]]", " ")
+    # Eliminación de números
+    nuevo_textoPM <- str_replace_all(nuevo_textoPM,"[[:digit:]]", " ")
+    # Eliminación de espacios en blanco múltiples
+    nuevo_textoPM <- str_replace_all(nuevo_textoPM,"[\\s]+", " ")
+    # Tokenización por palabras individuales
+    nuevo_textoPM <- str_split(nuevo_textoPM, " ")[[1]]
+    # Eliminación de tokens con una longitud < 2
+    nuevo_textoPM <- keep(.x = nuevo_textoPM, .p = function(x){str_length(x) > 1})
+    return(nuevo_textoPM)
+}
+
+```
+
+## Creacion del corpus
+
+```{r}
+#Transformación del texto
+
+docs <- Corpus(VectorSource(textoPM))
+inspect(docs)
+
+toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
+docs <- tm_map(docs, toSpace, "/")
+docs <- tm_map(docs, toSpace, "@")
+docs <- tm_map(docs, toSpace, "\\|")
+
+#Limpieza del texto
+
+
+# Convert the text to lower case
+docs <- tm_map(docs, content_transformer(tolower))
+# Remove numbers
+docs <- tm_map(docs, removeNumbers)
+# Remove english common stopwords
+docs <- tm_map(docs, removeWords, stopwords("spanish"))
+# Remove punctuations
+docs <- tm_map(docs, removePunctuation)
+# Eliminate extra white spaces
+docs <- tm_map(docs, stripWhitespace)
+# Text stemming
+# docs <- tm_map(docs, stemDocument)
+```
+
+Matriz de terminos 
+
+```{r}
+PMtext <- TermDocumentMatrix(docs)
+m <- as.matrix(PMtext)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+head(d, 100)
+```
+
+## Analisis descriptivo 
+
+Gráfico de terminos 
+
+```{r}
+
+set.seed(1234)
+wordcloud(words = d$word, freq = d$freq, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+
+### Analisis de sentimiento 
+
+```{r}
+texto_palabras <- get_tokens(d)
+head(texto_palabras)
+
+sentimientos_df <- get_nrc_sentiment(texto_palabras, lang="spanish")
+
+summary(sentimientos_df)
+
+kable(summary(sentimientos_df)) %>%
+  kable_styling(bootstrap_options = "striped", 
+                full_width = F)
+
+```
+
+## Conclusiones
+
+Se determina que el país se encuentra en un proceso de reconstrucción, por lo que muchas palabras tienen que ver con esperanza y recuperación principalmente.
